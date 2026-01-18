@@ -12,6 +12,7 @@ type Querier interface {
 	CreateEmployee(ctx context.Context, arg CreateEmployeeParams) (GikiWalletEmployeeProfile, error)
 	CreateStudent(ctx context.Context, arg CreateStudentParams) (GikiWalletStudentProfile, error)
 	CreateUser(ctx context.Context, arg CreateUserParams) (GikiWalletUser, error)
+	GetUserByEmail(ctx context.Context, email string) (GikiWalletUser, error)
 }
 
 var _ Querier = (*Queries)(nil)

@@ -110,3 +110,30 @@ func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (GikiWal
 	)
 	return i, err
 }
+
+const getUserByEmail = `-- name: GetUserByEmail :one
+
+SELECT id, name, email, phone_number, auth_provider, external_id, password_hash, password_algo, is_active, is_verified, user_type, created_at, updated_at FROM giki_wallet.users
+WHERE giki_wallet.users.email = $1
+`
+
+func (q *Queries) GetUserByEmail(ctx context.Context, email string) (GikiWalletUser, error) {
+	row := q.db.QueryRow(ctx, getUserByEmail, email)
+	var i GikiWalletUser
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.Email,
+		&i.PhoneNumber,
+		&i.AuthProvider,
+		&i.ExternalID,
+		&i.PasswordHash,
+		&i.PasswordAlgo,
+		&i.IsActive,
+		&i.IsVerified,
+		&i.UserType,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+	)
+	return i, err
+}
